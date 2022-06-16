@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   trailingSlash: true,
+  images: {
+    domains: ["picsum.photos"],
+  },
 };
 
 module.exports = nextConfig;
