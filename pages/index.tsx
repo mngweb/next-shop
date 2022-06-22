@@ -6,6 +6,7 @@ import { Product } from '../components/Product';
 const DATA = [
   {
     id: '1',
+    title: 'Deleniti magnam a ducimus enim!',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti magnam a ducimus enim! Reprehenderit quisquam molestias nihil dolor ducimus! Sapiente aspernatur dolore ssimus, veritatis soluta consectetur commodi fugiat ducimus iusto!',
     imageUrl: 'https://picsum.photos/1080/640',
@@ -14,6 +15,7 @@ const DATA = [
   },
   {
     id: '2',
+    title: 'Deleniti magnam a ducimus enim!',
     description:
       'Deleniti magnam a ducimus enim! Reprehenderit quisquam molestias nihil dolor ducimus! Sapiente aspernatur dolore ssimus, veritatis soluta consectetur commodi fugiat ducimus iusto!',
     imageUrl: 'https://picsum.photos/1080/640',
