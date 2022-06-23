@@ -1,7 +1,9 @@
 import { GetStaticPathsResult, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
-import Link from 'next/link';
+import { Footer } from '../../components/Footer';
+import { Header } from '../../components/Header';
 import { ProductDetails } from '../../components/Product';
 import { InferGetStaticPaths } from '../../types';
+import { apiUrl } from '../api/functions';
 // import { useRouter } from 'next/router';
 
 const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -12,20 +14,24 @@ const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>)
   }
 
   return (
-    <div>
-      <Link href={`/products`}>
-        <a>Back to Products list</a>
-      </Link>
-      <ProductDetails
-        data={{
-          id: data.id,
-          title: data.title,
-          imageUrl: data.image,
-          imageAlt: data.title,
-          description: data.description,
-          rating: data.rating.rate,
-        }}
-      />
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <div>
+        {/* <Link href={`/products`}>
+          <a>Back to Products list</a>
+        </Link> */}
+        <ProductDetails
+          data={{
+            id: data.id,
+            title: data.title,
+            imageUrl: data.image,
+            imageAlt: data.title,
+            description: data.description,
+            rating: data.rating.rate,
+          }}
+        />
+      </div>
+      <Footer />
     </div>
   );
 };
@@ -34,7 +40,7 @@ export default ProductIdPage;
 
 export const getStaticPaths = async () => {
   // export const getStaticPaths = async (): Promise<GetStaticPathsResult> => {
-  const res = await fetch(`https://fakestoreapi.com/products/`);
+  const res = await fetch(apiUrl);
   const data: StoreApiResponse[] = await res.json();
 
   return {
@@ -65,7 +71,7 @@ export const getStaticProps = async ({ params }: InferGetStaticPaths<typeof getS
     };
   }
 
-  const res = await fetch(`https://fakestoreapi.com/products/${params?.productId}`);
+  const res = await fetch(`${apiUrl}/${params?.productId}`);
   const data: StoreApiResponse | null = await res.json();
 
   return {
