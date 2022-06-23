@@ -9,6 +9,7 @@ const ProductsPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) 
           <li key={product.id}>
             <ProductListItem
               data={{
+                id: product.id,
                 title: product.title,
                 imageUrl: product.image,
                 imageAlt: product.title,

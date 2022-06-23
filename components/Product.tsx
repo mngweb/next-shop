@@ -1,7 +1,9 @@
 // import Image from "next/image";
+import Link from 'next/link';
 import { Rating } from './Rating';
 
 interface ProductDetails {
+  id: number;
   title: string;
   description: string;
   imageUrl: string;
@@ -25,7 +27,7 @@ export const ProductDetails = ({ data }: ProductProps) => {
   );
 };
 
-type ProductListItem = Pick<ProductDetails, 'title' | 'imageUrl' | 'imageAlt'>;
+type ProductListItem = Pick<ProductDetails, 'id' | 'title' | 'imageUrl' | 'imageAlt'>;
 
 interface ProductListItemProps {
   data: ProductListItem;
@@ -36,7 +38,11 @@ export const ProductListItem = ({ data }: ProductListItemProps) => {
     <div className="flex flex-col justify-between items-center bg-teal-200 border-2 shadow-xl border-emerald-600 rounded-md">
       <img src={data.imageUrl} alt={data.imageAlt} />
       {/* <Image src="https://picsum.photos/1080/640" alt="Random picture" width='100%' height='100%' objectFit='contain'/> */}
-      <h2 className="p-4 text-2xl font-bold">{data.title}</h2>
+      <Link href={`/products/${data.id}`}>
+        <a>
+          <h2 className="p-4 text-2xl font-bold">{data.title}</h2>
+        </a>
+      </Link>
     </div>
   );
 };
