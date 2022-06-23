@@ -1,6 +1,7 @@
 import { GetStaticPathsResult, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import Link from 'next/link';
 import { ProductDetails } from '../../components/Product';
+import { InferGetStaticPaths } from '../../types';
 // import { useRouter } from 'next/router';
 
 const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -86,9 +87,3 @@ export interface StoreApiResponse {
     count: number;
   };
 }
-
-export type InferGetStaticPaths<T> = T extends () => Promise<{
-  paths: Array<{ params: infer R }>;
-}>
-  ? { params?: R }
-  : never;
