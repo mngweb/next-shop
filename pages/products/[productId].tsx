@@ -16,7 +16,7 @@ const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>)
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <div>
+      <div className="flex-grow">
         {/* <Link href={`/products`}>
           <a>Back to Products list</a>
         </Link> */}
