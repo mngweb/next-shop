@@ -1,6 +1,5 @@
 import { useQuery } from 'react-query';
-import { Footer } from '../components/Footer';
-import { Header } from '../components/Header';
+import { Layout } from '../components/Layout';
 import { ProductListItem } from '../components/Product';
 import { getProducts } from './api/functions';
 
@@ -17,24 +16,24 @@ const ProductsCSRPage = () => {
 
   return (
     <>
-      <Header />
-      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {data.map((product) => {
-          return (
-            <li key={product.id}>
-              <ProductListItem
-                data={{
-                  id: product.id,
-                  title: product.title,
-                  imageUrl: product.image,
-                  imageAlt: product.title,
-                }}
-              />
-            </li>
-          );
-        })}
-      </ul>
-      <Footer />
+      <Layout>
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {data.map((product) => {
+            return (
+              <li key={product.id}>
+                <ProductListItem
+                  data={{
+                    id: product.id,
+                    title: product.title,
+                    imageUrl: product.image,
+                    imageAlt: product.title,
+                  }}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </Layout>
     </>
   );
 };

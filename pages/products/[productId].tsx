@@ -1,6 +1,5 @@
 import { GetStaticPathsResult, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
-import { Footer } from '../../components/Footer';
-import { Header } from '../../components/Header';
+import { Layout } from '../../components/Layout';
 import { ProductDetails } from '../../components/Product';
 import { InferGetStaticPaths } from '../../types';
 import { apiUrl } from '../api/functions';
@@ -14,25 +13,21 @@ const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>)
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <div className="flex-grow">
-        {/* <Link href={`/products`}>
+    <>
+      {/* <Link href={`/products`}>
           <a>Back to Products list</a>
         </Link> */}
-        <ProductDetails
-          data={{
-            id: data.id,
-            title: data.title,
-            imageUrl: data.image,
-            imageAlt: data.title,
-            description: data.description,
-            rating: data.rating.rate,
-          }}
-        />
-      </div>
-      <Footer />
-    </div>
+      <ProductDetails
+        data={{
+          id: data.id,
+          title: data.title,
+          imageUrl: data.image,
+          imageAlt: data.title,
+          description: data.description,
+          rating: data.rating.rate,
+        }}
+      />
+    </>
   );
 };
 
