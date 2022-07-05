@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
@@ -20,6 +21,10 @@ interface ProductProps {
 export const ProductDetails = ({ data }: ProductProps) => {
   return (
     <>
+      <Head>
+        <title>{data.title}</title>
+        <meta name="description" content={data.description} />
+      </Head>
       <div className="bg-white p-4">
         {/* <img src={data.imageUrl} alt={data.imageAlt} /> */}
         {/* <Image src={data.imageUrl} alt={data.imageAlt} width="100%" height="100%" objectFit="contain" /> */}
