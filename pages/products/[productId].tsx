@@ -1,8 +1,7 @@
 import { GetStaticPathsResult, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
-import { Layout } from '../../components/Layout';
 import { ProductDetails } from '../../components/Product';
 import { InferGetStaticPaths } from '../../types';
-import { apiUrl } from '../api/functions';
+import { apiUrl } from '../api/constants';
 // import { useRouter } from 'next/router';
 
 const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {

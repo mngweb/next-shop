@@ -1,8 +1,9 @@
-import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import { Rating } from './Rating';
+import { NextSeo } from 'next-seo';
+import { apiUrl } from '../pages/api/constants';
 
 interface ProductDetails {
   id: number;
@@ -21,10 +22,24 @@ interface ProductProps {
 export const ProductDetails = ({ data }: ProductProps) => {
   return (
     <>
-      <Head>
-        <title>{data.title}</title>
-        <meta name="description" content={data.description} />
-      </Head>
+      <NextSeo
+        title={data.title}
+        description={data.description}
+        canonical={`${apiUrl}/${data.id}`}
+        openGraph={{
+          url: `${apiUrl}/${data.id}`,
+          title: data.title,
+          description: data.description,
+          images: [
+            {
+              url: data.imageUrl,
+              alt: data.imageAlt,
+              type: 'image/jpeg',
+            },
+          ],
+          site_name: 'Shop',
+        }}
+      />
       <div className="bg-white p-4">
         {/* <img src={data.imageUrl} alt={data.imageAlt} /> */}
         {/* <Image src={data.imageUrl} alt={data.imageAlt} width="100%" height="100%" objectFit="contain" /> */}
