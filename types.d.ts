@@ -16,3 +16,6 @@ export type InferGetStaticPaths<T> = T extends () => Promise<{
 }>
   ? { params?: R }
   : never;
+
+export type MarkdownResult = MDXRemoteSerializeResult<Record<string, unknown>>;
+// export type MarkdownResult = string;

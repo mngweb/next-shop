@@ -4,12 +4,14 @@ import { Rating } from './Rating';
 import { NextSeo } from 'next-seo';
 import { apiUrl } from '../pages/api/constants';
 import { ShopMarkdown } from './ShopMarkdown';
+import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
+import { MarkdownResult } from '../types';
 
 interface ProductDetails {
   id: number;
   title: string;
   description: string;
-  longDescription: string;
+  longDescription: MarkdownResult;
   imageUrl: string;
   imageAlt: string;
   rating: number;
@@ -48,6 +50,7 @@ export const ProductDetails = ({ data }: ProductProps) => {
       <h2 className="p-4 text-2xl font-bold">{data.title}</h2>
       <p className="p-4">{data.description}</p>
       <article className="prose lg:prose-xl">
+        {/* <MDXRemote {...data.longDescription} /> */}
         <ShopMarkdown>{data.longDescription}</ShopMarkdown>
       </article>
       <Rating rating={data.rating} />

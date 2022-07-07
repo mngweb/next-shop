@@ -1,4 +1,5 @@
 import { GetStaticPathsResult, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
+import { serialize } from 'next-mdx-remote/serialize';
 import { ProductDetails } from '../../components/Product';
 import { InferGetStaticPaths } from '../../types';
 import { apiUrl } from '../api/constants';
@@ -69,9 +70,19 @@ export const getStaticProps = async ({ params }: InferGetStaticPaths<typeof getS
   const res = await fetch(`${apiUrl}/${params?.productId}`);
   const data: StoreApiResponse | null = await res.json();
 
+  if (!data) {
+    return {
+      props: {},
+      notFound: true,
+    };
+  }
+
   return {
     props: {
-      data,
+      data: {
+        ...data,
+        longDescription: await serialize(data.longDescription),
+      },
     },
   };
 };
