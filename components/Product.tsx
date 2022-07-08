@@ -1,11 +1,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Rating } from './Rating';
+import { NextSeo } from 'next-seo';
+import { apiUrl } from '../pages/api/constants';
+import { ShopMarkdown } from './ShopMarkdown';
+import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
+import { MarkdownResult } from '../types';
 
 interface ProductDetails {
   id: number;
   title: string;
   description: string;
+  longDescription: MarkdownResult;
   imageUrl: string;
   imageAlt: string;
   rating: number;
@@ -18,6 +24,24 @@ interface ProductProps {
 export const ProductDetails = ({ data }: ProductProps) => {
   return (
     <>
+      <NextSeo
+        title={data.title}
+        description={data.description}
+        canonical={`${apiUrl}/${data.id}`}
+        openGraph={{
+          url: `${apiUrl}/${data.id}`,
+          title: data.title,
+          description: data.description,
+          images: [
+            {
+              url: data.imageUrl,
+              alt: data.imageAlt,
+              type: 'image/jpeg',
+            },
+          ],
+          site_name: 'Shop',
+        }}
+      />
       <div className="bg-white p-4">
         {/* <img src={data.imageUrl} alt={data.imageAlt} /> */}
         {/* <Image src={data.imageUrl} alt={data.imageAlt} width="100%" height="100%" objectFit="contain" /> */}
@@ -25,6 +49,10 @@ export const ProductDetails = ({ data }: ProductProps) => {
       </div>
       <h2 className="p-4 text-2xl font-bold">{data.title}</h2>
       <p className="p-4">{data.description}</p>
+      <article className="prose lg:prose-xl">
+        {/* <MDXRemote {...data.longDescription} /> */}
+        <ShopMarkdown>{data.longDescription}</ShopMarkdown>
+      </article>
       <Rating rating={data.rating} />
     </>
   );

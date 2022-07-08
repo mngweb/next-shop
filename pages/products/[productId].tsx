@@ -1,9 +1,8 @@
 import { GetStaticPathsResult, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
-import { Footer } from '../../components/Footer';
-import { Header } from '../../components/Header';
+import { serialize } from 'next-mdx-remote/serialize';
 import { ProductDetails } from '../../components/Product';
 import { InferGetStaticPaths } from '../../types';
-import { apiUrl } from '../api/functions';
+import { apiUrl } from '../api/constants';
 // import { useRouter } from 'next/router';
 
 const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -14,25 +13,22 @@ const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>)
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <div className="flex-grow">
-        {/* <Link href={`/products`}>
+    <>
+      {/* <Link href={`/products`}>
           <a>Back to Products list</a>
         </Link> */}
-        <ProductDetails
-          data={{
-            id: data.id,
-            title: data.title,
-            imageUrl: data.image,
-            imageAlt: data.title,
-            description: data.description,
-            rating: data.rating.rate,
-          }}
-        />
-      </div>
-      <Footer />
-    </div>
+      <ProductDetails
+        data={{
+          id: data.id,
+          title: data.title,
+          imageUrl: data.image,
+          imageAlt: data.title,
+          description: data.description,
+          longDescription: data.longDescription,
+          rating: data.rating.rate,
+        }}
+      />
+    </>
   );
 };
 
@@ -74,9 +70,19 @@ export const getStaticProps = async ({ params }: InferGetStaticPaths<typeof getS
   const res = await fetch(`${apiUrl}/${params?.productId}`);
   const data: StoreApiResponse | null = await res.json();
 
+  if (!data) {
+    return {
+      props: {},
+      notFound: true,
+    };
+  }
+
   return {
     props: {
-      data,
+      data: {
+        ...data,
+        longDescription: await serialize(data.longDescription),
+      },
     },
   };
 };
@@ -86,6 +92,7 @@ export interface StoreApiResponse {
   title: string;
   price: number;
   description: string;
+  longDescription: string;
   category: string;
   image: string;
   rating: {
