@@ -6,6 +6,7 @@ import { apiUrl } from '../pages/api/constants';
 import { ShopMarkdown } from './ShopMarkdown';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { MarkdownResult } from '../types';
+import { useCart } from './Cart/CartContext';
 
 interface ProductDetails {
   id: number;
@@ -65,6 +66,8 @@ interface ProductListItemProps {
 }
 
 export const ProductListItem = ({ data }: ProductListItemProps) => {
+  const cartContext = useCart();
+
   return (
     <div className="bg-teal-200 border-2 shadow-xl border-emerald-600 rounded-md">
       <div className="bg-white p-4">
@@ -76,7 +79,10 @@ export const ProductListItem = ({ data }: ProductListItemProps) => {
             <h2 className="pb-4 text-2xl font-bold">{data.title}</h2>
           </a>
         </Link>
-        <button className="bg-green-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+        <button
+          onClick={() => cartContext.addItemToCart({ title: data.title, price: 10 })}
+          className="bg-green-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+        >
           Add to cart
         </button>
       </div>

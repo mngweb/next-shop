@@ -7,7 +7,7 @@ interface CartItem {
 
 interface CartState {
   items: CartItem[];
-  // addItemToCart
+  addItemToCart: (item: CartItem) => void;
   // clearCart
 }
 
@@ -16,7 +16,21 @@ export const CartContext = createContext<CartState | null>(null);
 export const CartContextProvider = ({ children }: { children: ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-  return <CartContext.Provider value={{ items: cartItems }}>{children}</CartContext.Provider>;
+  return (
+    <CartContext.Provider
+      value={{
+        items: cartItems,
+        addItemToCart: (item) => {
+          // const newCartItems = [...cartItems, item];
+          // setCartItems(newCartItems);
+
+          setCartItems((prevCartItems) => [...prevCartItems, item]);
+        },
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
 };
 
 export const useCart = () => {
