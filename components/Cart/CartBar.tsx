@@ -1,9 +1,16 @@
 import Link from 'next/link';
+import { useCart } from './CartContext';
+// import { useContext, useState } from 'react';
+// import { CartContext } from './CartContext';
 
 export const CartBar = () => {
+  // const cartContext = useContext(CartContext);
+  const cartContext = useCart();
+
   return (
     <Link href="/cart">
-      <a>
+      <a className="text-white flex">
+        <span className="mr-1">{cartContext.items.length}</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6 text-white"

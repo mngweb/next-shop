@@ -70,11 +70,16 @@ export const ProductListItem = ({ data }: ProductListItemProps) => {
       <div className="bg-white p-4">
         <Image src={data.imageUrl} alt={data.imageAlt} width={16} height={9} layout="responsive" objectFit="contain" />
       </div>
-      <Link href={`/products/${data.id}`}>
-        <a>
-          <h2 className="p-4 text-2xl font-bold">{data.title}</h2>
-        </a>
-      </Link>
+      <div className="p-4">
+        <Link href={`/products/${data.id}`}>
+          <a>
+            <h2 className="pb-4 text-2xl font-bold">{data.title}</h2>
+          </a>
+        </Link>
+        <button className="bg-green-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+          Add to cart
+        </button>
+      </div>
     </div>
   );
 };
