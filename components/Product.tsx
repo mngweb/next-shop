@@ -81,7 +81,7 @@ export const ProductListItem = ({ data }: ProductListItemProps) => {
         </Link>
         <button
           onClick={() => cartContext.addItemToCart({ title: data.title, price: 10 })}
-          className="bg-green-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          className="text-white bg-green-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
         >
           Add to cart
         </button>
