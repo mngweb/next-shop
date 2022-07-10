@@ -13,7 +13,7 @@ const CartContent = () => {
             </div>
             <div>
               {item.price}$
-              <button className="ml-4 text-red-400">
+              <button className="ml-4 text-red-400" onClick={() => cartContext.removeItemFromCart(item.id)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
