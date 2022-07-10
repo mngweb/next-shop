@@ -1,14 +1,16 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 interface CartItem {
-  title: string;
-  price: number;
+  readonly id: number;
+  readonly title: string;
+  readonly price: number;
+  readonly count: number;
 }
 
 interface CartState {
-  items: CartItem[];
-  addItemToCart: (item: CartItem) => void;
-  // clearCart
+  readonly items: readonly CartItem[];
+  readonly addItemToCart: (item: CartItem) => void;
+  // readonly removeItemFromCart: (item: CartItem) => void;
 }
 
 export const CartContext = createContext<CartState | null>(null);
@@ -24,7 +26,16 @@ export const CartContextProvider = ({ children }: { children: ReactNode }) => {
           // const newCartItems = [...cartItems, item];
           // setCartItems(newCartItems);
 
-          setCartItems((prevCartItems) => [...prevCartItems, item]);
+          setCartItems((prevCartItems) => {
+            const existingItem = prevCartItems.find((existingItem) => existingItem.id === item.id);
+            if (!existingItem) {
+              return [...prevCartItems, item];
+            }
+
+            return prevCartItems.map((existingItem) => {
+              return existingItem.id === item.id ? { ...existingItem, count: existingItem.count + 1 } : existingItem;
+            });
+          });
         },
       }}
     >

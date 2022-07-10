@@ -8,7 +8,9 @@ const CartContent = () => {
       <ul className="divide-y divide-gray-200">
         {cartContext.items.map((item, index) => (
           <li key={`${item.title}_${index}`} className="flex justify-between py-4">
-            <div>{item.title}</div>
+            <div>
+              {item.count} x {item.title}
+            </div>
             <div>
               {item.price}$
               <button className="ml-4 text-red-400">
