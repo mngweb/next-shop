@@ -1,6 +1,8 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { getCartItemsFromStorage, setCartItemsInStorage } from './CartModel';
 
-interface CartItem {
+const storageCartKey = 'NEXT_SHOP_CART';
+export interface CartItem {
   readonly id: number;
   readonly title: string;
   readonly price: number;
@@ -15,8 +17,34 @@ interface CartState {
 
 export const CartContext = createContext<CartState | null>(null);
 
+// export const getCartItemsFromStorage = () => {
+//   const itemsFromLocalStorage = localStorage.getItem(storageCartKey);
+//   if (!itemsFromLocalStorage) {
+//     return [];
+//   }
+//   try {
+//     const items = JSON.parse(itemsFromLocalStorage);
+//     return items;
+//   } catch (err) {
+//     console.error(err);
+//     return [];
+//   }
+// };
+
+// export const setCartItemsInStorage = (cartItems: CartItem[]) => {
+//   localStorage.setItem(storageCartKey, JSON.stringify(cartItems));
+// };
+
 export const CartContextProvider = ({ children }: { children: ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  useEffect(() => {
+    setCartItems(getCartItemsFromStorage());
+  }, []);
+
+  useEffect(() => {
+    setCartItemsInStorage(cartItems);
+  }, [cartItems]);
 
   return (
     <CartContext.Provider
