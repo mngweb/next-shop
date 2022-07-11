@@ -17,45 +17,41 @@ interface CartState {
 
 export const CartContext = createContext<CartState | null>(null);
 
-// export const getCartItemsFromStorage = () => {
-//   const itemsFromLocalStorage = localStorage.getItem(storageCartKey);
-//   if (!itemsFromLocalStorage) {
-//     return [];
-//   }
-//   try {
-//     const items = JSON.parse(itemsFromLocalStorage);
-//     return items;
-//   } catch (err) {
-//     console.error(err);
-//     return [];
-//   }
-// };
-
-// export const setCartItemsInStorage = (cartItems: CartItem[]) => {
-//   localStorage.setItem(storageCartKey, JSON.stringify(cartItems));
-// };
-
 export const CartContextProvider = ({ children }: { children: ReactNode }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  // in React <= 17
+  // const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  // in React >= 18 (https://javascript.plainenglish.io/react-18-useeffect-double-call-for-apis-emergency-fix-724b7ee6a646)
+  const [cartItems, setCartItems] = useState<CartItem[] | undefined>(undefined);
 
   useEffect(() => {
     setCartItems(getCartItemsFromStorage());
   }, []);
 
   useEffect(() => {
+    // added for React >= 18
+    if (cartItems === undefined) {
+      return;
+    }
+
     setCartItemsInStorage(cartItems);
   }, [cartItems]);
 
   return (
     <CartContext.Provider
       value={{
-        items: cartItems,
+        // in React <= 17
+        // items: cartItems,
+        // in React >= 18
+        items: cartItems || [],
 
         addItemToCart: (item) => {
           // const newCartItems = [...cartItems, item];
           // setCartItems(newCartItems);
 
-          setCartItems((prevCartItems) => {
+          // in React <= 17
+          // setCartItems((prevCartItems) => {
+          // in React >= 18
+          setCartItems((prevCartItems = []) => {
             const existingItem = prevCartItems.find((existingItem) => existingItem.id === item.id);
 
             if (!existingItem) {
@@ -69,7 +65,10 @@ export const CartContextProvider = ({ children }: { children: ReactNode }) => {
         },
 
         removeItemFromCart(id) {
-          setCartItems((prevCartItems) => {
+          // in React <= 17
+          // setCartItems((prevCartItems) => {
+          // in React >= 18
+          setCartItems((prevCartItems = []) => {
             const existingItem = prevCartItems.find((existingItem) => existingItem.id === id);
 
             if (existingItem && existingItem.count <= 1) {
