@@ -7,18 +7,32 @@ const ProductsPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) 
   return (
     <>
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {data.map((product) => {
+        {/* {data.map((product) => { */}
+        {data.products.map((product) => {
           return (
+            ///// graphql version
             <li key={product.id}>
               <ProductListItem
                 data={{
                   id: product.id,
-                  title: product.title,
-                  imageUrl: product.image,
-                  imageAlt: product.title,
+                  title: product.name,
+                  imageUrl: product.images[0].url,
+                  imageAlt: product.name,
                 }}
               />
             </li>
+
+            ///// rest api version
+            // <li key={product.id}>
+            //   <ProductListItem
+            //     data={{
+            //       id: product.id,
+            //       title: product.title,
+            //       imageUrl: product.image,
+            //       imageAlt: product.title,
+            //     }}
+            //   />
+            // </li>
           );
         })}
       </ul>

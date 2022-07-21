@@ -9,7 +9,10 @@ import { MarkdownResult } from '../types';
 import { useCart } from './Cart/CartContext';
 
 interface ProductDetails {
-  id: number;
+  //// graphql version
+  id: string;
+  //// rest api version
+  // id: number;
   title: string;
   description: string;
   longDescription: MarkdownResult;
