@@ -7,14 +7,14 @@ const ProductsPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) 
   return (
     <>
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {/* {data.map((product) => { */}
+        {/* {{data.map((product) => /* rest api version */}
         {data.products.map((product) => {
           return (
             ///// graphql version
-            <li key={product.id}>
+            <li key={product.slug}>
               <ProductListItem
                 data={{
-                  id: product.id,
+                  id: product.slug,
                   title: product.name,
                   imageUrl: product.images[0].url,
                   imageAlt: product.name,

@@ -3,7 +3,7 @@ import { getCartItemsFromStorage, setCartItemsInStorage } from './CartModel';
 
 const storageCartKey = 'NEXT_SHOP_CART';
 export interface CartItem {
-  readonly id: number;
+  readonly id: string;
   readonly title: string;
   readonly price: number;
   readonly count: number;

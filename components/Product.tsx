@@ -46,6 +46,7 @@ export const ProductDetails = ({ data }: ProductProps) => {
           site_name: 'Shop',
         }}
       />
+
       <div className="bg-white p-4">
         {/* <img src={data.imageUrl} alt={data.imageAlt} /> */}
         {/* <Image src={data.imageUrl} alt={data.imageAlt} width="100%" height="100%" objectFit="contain" /> */}

@@ -15,7 +15,6 @@ export const getProductsStaticProps = async () => {
     query: gql`
       query GetProductsList {
         products {
-          id
           slug
           name
           price
