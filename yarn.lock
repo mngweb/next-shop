@@ -534,7 +534,7 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@graphql-codegen/cli@^2.10.0":
+"@graphql-codegen/cli@2.10.0":
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-2.10.0.tgz#82f716590333bcb7965cd4ae373972068b2d0787"
   integrity sha512-v87yzrQ4Q/PpGPC59O0xusQknWWKtUdITqahpUBDddT8ZWHNhadx2BjvPkinFoPZmCkG8yVoAHx7FJ2uLzqjww==
@@ -2820,7 +2820,7 @@ graphql-request@^4.0.0:
     extract-files "^9.0.0"
     form-data "^3.0.0"
 
-graphql-tag@^2.11.0, graphql-tag@^2.12.6:
+graphql-tag@^2.0.0, graphql-tag@^2.11.0, graphql-tag@^2.12.6:
   version "2.12.6"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.12.6.tgz#d441a569c1d2537ef10ca3d1633b48725329b5f1"
   integrity sha512-FdSNcu2QQcWnM2VNvSCCDCVS5PpPqpzgFT8+GXzqJuoDd0CBncxCY278u4mhRO7tMgo2JjgJA5aZ+nWSQ/Z+xg==

@@ -1,5 +1,8 @@
 export interface StoreApiResponse {
-  id: number;
+  //// graphql version
+  id: string;
+  //// rest api version
+  // id: number;
   title: string;
   price: number;
   description: string;

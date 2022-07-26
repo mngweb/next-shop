@@ -13,6 +13,7 @@
     "@apollo/client": "^3.6.9",
     "@tailwindcss/typography": "^0.5.2",
     "graphql": "^16.5.0",
+    "graphql-tag": "^2.0.0",
     "next": "12.1.6",
     "next-mdx-remote": "^4.0.3",
     "next-seo": "^5.4.0",
