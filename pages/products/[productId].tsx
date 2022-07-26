@@ -2,6 +2,13 @@ import { gql } from '@apollo/client';
 import { GetStaticPathsResult, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import { serialize } from 'next-mdx-remote/serialize';
 import { ProductDetails } from '../../components/Product';
+import {
+  GetProductDetailsBySlugDocument,
+  GetProductDetailsBySlugQuery,
+  GetProductDetailsBySlugQueryVariables,
+  GetProductsSlugsDocument,
+  GetProductsSlugsQuery,
+} from '../../generated/graphql';
 import { apolloClient } from '../../graphql/apolloClient';
 import { InferGetStaticPaths } from '../../types';
 import { apiUrl } from '../api/constants';
@@ -52,24 +59,28 @@ const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>)
 export default ProductIdPage;
 
 export const getStaticPaths = async () => {
-  //// graphql version - querying graphql on server
-  interface GetProductsSlugsResponse {
-    products: Product[];
-  }
-  interface Product {
-    slug: string;
-  }
-
-  //// graphql version
-  const { data } = await apolloClient.query<GetProductsSlugsResponse>({
-    query: gql`
-      query GetProductsSlugs {
-        products {
-          slug
-        }
-      }
-    `,
+  //// graphql version - querying graphql on server, generated types
+  const { data } = await apolloClient.query<GetProductsSlugsQuery>({
+    query: GetProductsSlugsDocument,
   });
+
+  //// graphql version - querying graphql on server, manually created types
+  // interface GetProductsSlugsResponse {
+  //   products: Product[];
+  // }
+  // interface Product {
+  //   slug: string;
+  // }
+
+  // const { data } = await apolloClient.query<GetProductsSlugsResponse>({
+  //   query: gql`
+  //     query GetProductsSlugs {
+  //       products {
+  //         slug
+  //       }
+  //     }
+  //   `,
+  // });
 
   //// rest api version
   // // export const getStaticPaths = async (): Promise<GetStaticPathsResult> => {
@@ -104,45 +115,56 @@ export const getStaticProps = async ({ params }: InferGetStaticPaths<typeof getS
     };
   }
 
-  //// graphql version
-  interface GetProductDetailsBySlugResponse {
-    product: Product;
-  }
-  interface Product {
-    slug: string;
-    name: string;
-    price: number;
-    description: string;
-    images: Image[];
-  }
-  interface Image {
-    url: string;
-  }
-
-  const { data } = await apolloClient.query<GetProductDetailsBySlugResponse>({
+  //// graphql version - querying graphql on server, generated types
+  const { data } = await apolloClient.query<GetProductDetailsBySlugQuery, GetProductDetailsBySlugQueryVariables>({
     variables: {
       slug: params.productId,
     },
-    query: gql`
-      query GetProductDetailsBySlug($slug: String) {
-        product(where: { slug: $slug }) {
-          slug
-          name
-          price
-          description
-          images {
-            url
-          }
-        }
-      }
-    `,
+    query: GetProductDetailsBySlugDocument,
   });
+
+  // graphql version - querying graphql on server, manually created types
+  // interface GetProductDetailsBySlugResponse {
+  //   product: Product;
+  // }
+  // interface Product {
+  //   slug: string;
+  //   name: string;
+  //   price: number;
+  //   description: string;
+  //   images: Image[];
+  // }
+  // interface Image {
+  //   url: string;
+  // }
+
+  // const { data } = await apolloClient.query<GetProductDetailsBySlugResponse>({
+  //   variables: {
+  //     slug: params.productId,
+  //   },
+  //   query: gql`
+  //     query GetProductDetailsBySlug($slug: String) {
+  //       product(where: { slug: $slug }) {
+  //         slug
+  //         name
+  //         price
+  //         description
+  //         images {
+  //           url
+  //         }
+  //       }
+  //     }
+  //   `,
+  // });
 
   //// rest api version
   // const res = await fetch(`${apiUrl}/${params?.productId}`);
   // const data: StoreApiResponse | null = await res.json();
 
-  if (!data) {
+  //// graphql version
+  if (!data.product) {
+    //// rest api version
+    // if (!data) {
     return {
       props: {},
       notFound: true,

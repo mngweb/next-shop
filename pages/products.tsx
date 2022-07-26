@@ -1,6 +1,8 @@
+// import { gql } from '@apollo/client';
 import { InferGetStaticPropsType } from 'next';
 import { ProductListItem } from '../components/Product';
-import { getProductsStaticProps } from './api/functions';
+import { GetProductsListDocument, GetProductsListQuery } from '../generated/graphql';
+import { apolloClient } from '../graphql/apolloClient';
 // import { StoreApiResponse } from '../types';
 
 const ProductsPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -43,5 +45,51 @@ const ProductsPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) 
 export default ProductsPage;
 
 export const getStaticProps = async () => {
-  return getProductsStaticProps();
+  //// graphql version - querying graphql on server, generated types
+  const { data } = await apolloClient.query<GetProductsListQuery>({
+    query: GetProductsListDocument,
+  });
+
+  //// graphql version - querying graphql on server, manually created types
+  // const { data } = await apolloClient.query<GetProductsListResponse>({
+  //   query: gql`
+  //     query GetProductsList {
+  //       products {
+  //         slug
+  //         name
+  //         price
+  //         images(first: 1) {
+  //           url
+  //         }
+  //       }
+  //     }
+  //   `,
+  // });
+
+  //// rest api version
+  // const res = await fetch(apiUrl);
+  // const data: StoreApiResponse[] = await res.json();
+
+  return {
+    props: {
+      data,
+    },
+  };
 };
+
+/// graphql version - querying graphql on server, manually created types
+// export interface GetProductsListResponse {
+//   products: Product[];
+// }
+
+// export interface Product {
+//   id: string;
+//   slug: string;
+//   name: string;
+//   price: number;
+//   images: Image[];
+// }
+
+// export interface Image {
+//   url: string;
+// }
