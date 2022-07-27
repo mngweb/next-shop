@@ -6,14 +6,3 @@ export const getProducts = async () => {
   const data: StoreApiResponse[] = await res.json();
   return data;
 };
-
-export const getProductsStaticProps = async () => {
-  const res = await fetch(apiUrl);
-  const data: StoreApiResponse[] = await res.json();
-
-  return {
-    props: {
-      data,
-    },
-  };
-};

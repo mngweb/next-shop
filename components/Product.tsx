@@ -9,7 +9,7 @@ import { MarkdownResult } from '../types';
 import { useCart } from './Cart/CartContext';
 
 interface ProductDetails {
-  id: number;
+  id: string;
   title: string;
   description: string;
   longDescription: MarkdownResult;
@@ -43,14 +43,15 @@ export const ProductDetails = ({ data }: ProductProps) => {
           site_name: 'Shop',
         }}
       />
+
       <div className="bg-white p-4">
         {/* <img src={data.imageUrl} alt={data.imageAlt} /> */}
         {/* <Image src={data.imageUrl} alt={data.imageAlt} width="100%" height="100%" objectFit="contain" /> */}
         <Image src={data.imageUrl} alt={data.imageAlt} width={16} height={9} layout="responsive" objectFit="contain" />
       </div>
-      <h2 className="p-4 text-2xl font-bold">{data.title}</h2>
+      <h2 className="text-2xl font-bold p-4">{data.title}</h2>
       <p className="p-4">{data.description}</p>
-      <article className="prose lg:prose-xl">
+      <article className="prose lg:prose-xl p-4 ">
         {/* <MDXRemote {...data.longDescription} /> */}
         <ShopMarkdown>{data.longDescription}</ShopMarkdown>
       </article>

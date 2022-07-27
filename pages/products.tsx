@@ -1,21 +1,21 @@
 import { InferGetStaticPropsType } from 'next';
 import { ProductListItem } from '../components/Product';
-import { getProductsStaticProps } from './api/functions';
-// import { StoreApiResponse } from '../types';
+import { GetProductsListDocument, GetProductsListQuery } from '../generated/graphql';
+import { apolloClient } from '../graphql/apolloClient';
 
 const ProductsPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {data.map((product) => {
+        {data.products.map((product) => {
           return (
-            <li key={product.id}>
+            <li key={product.slug}>
               <ProductListItem
                 data={{
-                  id: product.id,
-                  title: product.title,
-                  imageUrl: product.image,
-                  imageAlt: product.title,
+                  id: product.slug,
+                  title: product.name,
+                  imageUrl: product.images[0].url,
+                  imageAlt: product.name,
                 }}
               />
             </li>
@@ -29,5 +29,13 @@ const ProductsPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) 
 export default ProductsPage;
 
 export const getStaticProps = async () => {
-  return getProductsStaticProps();
+  const { data } = await apolloClient.query<GetProductsListQuery>({
+    query: GetProductsListDocument,
+  });
+
+  return {
+    props: {
+      data,
+    },
+  };
 };
