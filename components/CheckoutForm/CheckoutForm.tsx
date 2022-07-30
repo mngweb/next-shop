@@ -1,3 +1,7 @@
+import { ChangeEventHandler, FormEventHandler, Fragment, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { validateCreditCardDate } from '../../utils';
+
 const products = [
   {
     id: 1,
@@ -21,11 +25,45 @@ const products = [
   },
 ];
 
+//// using react-hook-form, without yup
+interface CheckoutFormData {
+  emailAddress: string;
+  nameOnCard: string;
+  cardNumber: string;
+  expirationDate: string;
+  cvc: string;
+  company: string;
+  address: string;
+  apartament: string;
+  city: string;
+  region: string;
+  postalCode: string;
+  asShipping: boolean;
+}
+
 export const CheckoutForm = () => {
+  //// using react-hook-form, without yup
+  const { register, setValue, handleSubmit, formState } = useForm<CheckoutFormData>({
+    mode: 'onBlur',
+  });
+
+  const onSubmit = handleSubmit((data) => console.log(data));
+
+  //// form trial with controlled form, without using react-hook-form
+  // const [email, setEmail] = useState('');
+  // const handleEmailChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+  //   setEmail(e.target.value);
+  // };
+
+  // const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+  //   e.preventDefault();
+  //   console.log({ email });
+  // };
+
   return (
     <div className="bg-white flex justify-center flex-col-reverse lg:flex-row lg:space-x-10 m-5">
       <div className="flex flex-col mx-auto w-full max-w-lg lg:max-w-none lg:w-1/2 p-4">
-        <form>
+        <form onSubmit={onSubmit}>
           <section aria-labelledby="contact-heading">
             <h2 id="contact-heading" className="text-lg font-bold text-gray-800 mt-8 mb-5">
               Contact information
@@ -39,10 +77,13 @@ export const CheckoutForm = () => {
                 <input
                   type="email"
                   id="email-address"
-                  name="emailAddress"
                   autoComplete="email"
                   className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
+                  {...register('emailAddress', { required: 'This field is required' })}
                 />
+                <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
+                  {formState.errors.emailAddress?.message}
+                </span>
               </div>
             </div>
           </section>
@@ -60,7 +101,7 @@ export const CheckoutForm = () => {
                 <input
                   type="text"
                   id="name-on-card"
-                  name="nameOnCard"
+                  {...register('nameOnCard')}
                   autoComplete="cc-name"
                   className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                 />
@@ -75,7 +116,7 @@ export const CheckoutForm = () => {
                 <input
                   type="text"
                   id="card-number"
-                  name="cardNumber"
+                  {...register('cardNumber')}
                   autoComplete="cc-number"
                   className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                 />
@@ -91,10 +132,17 @@ export const CheckoutForm = () => {
                   <input
                     type="text"
                     id="expiration-date"
-                    name="expirationDate"
+                    {...register('expirationDate', {
+                      required: true,
+                      // pattern: /^\d\d\/\d\d$/
+                      validate: validateCreditCardDate,
+                    })}
                     autoComplete="cc-exp"
                     className="block border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                   />
+                  <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
+                    {formState.errors.expirationDate?.message}
+                  </span>
                 </div>
               </div>
 
@@ -106,7 +154,7 @@ export const CheckoutForm = () => {
                   <input
                     type="text"
                     id="cvc"
-                    name="cvc"
+                    {...register('cvc')}
                     autoComplete="csc"
                     className="block border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                   />
@@ -128,7 +176,7 @@ export const CheckoutForm = () => {
                 <input
                   type="text"
                   id="company"
-                  name="company"
+                  {...register('company')}
                   className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                 />
               </div>
@@ -142,7 +190,7 @@ export const CheckoutForm = () => {
                 <input
                   type="text"
                   id="address"
-                  name="address"
+                  {...register('address')}
                   autoComplete="street-address"
                   className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                 />
@@ -157,7 +205,7 @@ export const CheckoutForm = () => {
                 <input
                   type="text"
                   id="apartament"
-                  name="apartament"
+                  {...register('apartament')}
                   className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                 />
               </div>
@@ -171,7 +219,7 @@ export const CheckoutForm = () => {
                 <input
                   type="text"
                   id="city"
-                  name="city"
+                  {...register('city')}
                   autoComplete="address-level2"
                   className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                 />
@@ -187,7 +235,7 @@ export const CheckoutForm = () => {
                   <input
                     type="text"
                     id="region"
-                    name="region"
+                    {...register('region')}
                     className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                   />
                 </div>
@@ -201,7 +249,7 @@ export const CheckoutForm = () => {
                   <input
                     type="text"
                     id="postal-code"
-                    name="postalCode"
+                    {...register('postalCode')}
                     className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                   />
                 </div>
@@ -215,7 +263,7 @@ export const CheckoutForm = () => {
             </h2>
 
             <div className="mt-5 flex items-center">
-              <input id="as-shipping" name="asShipping" type="checkbox" defaultChecked />
+              <input id="as-shipping" {...register('asShipping')} type="checkbox" defaultChecked />
               <label htmlFor="as-shipping" className="block text-sm font-medium text-gray-600 my-1">
                 Same as shipping information
               </label>
