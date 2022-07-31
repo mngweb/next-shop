@@ -1,6 +1,9 @@
-import { ChangeEventHandler, FormEventHandler, Fragment, useState } from 'react';
+// import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { validateCreditCardDate } from '../../utils';
+// import {validateCreditCardDate } from '../../utils/validation';
+import { RegExpressions, InvalidMessages } from '../../utils/validations';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 const products = [
   {
@@ -26,25 +29,64 @@ const products = [
 ];
 
 //// using react-hook-form, without yup
-interface CheckoutFormData {
-  emailAddress: string;
-  nameOnCard: string;
-  cardNumber: string;
-  expirationDate: string;
-  cvc: string;
-  company: string;
-  address: string;
-  apartament: string;
-  city: string;
-  region: string;
-  postalCode: string;
-  asShipping: boolean;
-}
+// interface CheckoutFormData {
+//   emailAddress: string;
+//   nameOnCard: string;
+//   cardNumber: string;
+//   expirationDate: string;
+//   cvc: string;
+//   company: string;
+//   address: string;
+//   apartament: string;
+//   city: string;
+//   region: string;
+//   postalCode: string;
+//   asShipping: boolean;
+// }
+
+//// using react-hook-form, with yup
+yup.setLocale({
+  mixed: {
+    required: InvalidMessages.REQUIRED,
+  },
+  string: {
+    email: InvalidMessages.EMAIL,
+    length: InvalidMessages.LENGTH,
+  },
+});
+
+const checkoutFormSchema = yup
+  .object({
+    emailAddress: yup.string().email().trim().required(),
+    nameOnCard: yup.string().trim().required(),
+    cardNumber: yup.string().trim().length(16).required(),
+    expirationDate: yup
+      .string()
+      .matches(RegExpressions.EXPIRATION_DATE, InvalidMessages.EXPIRATION_DATE)
+      .trim()
+      .required(),
+    cvc: yup.string().trim().matches(RegExpressions.CVC, InvalidMessages.CVC).required(),
+    company: yup.string().trim().required(),
+    address: yup.string().trim().required(),
+    apartament: yup.string().trim().required(),
+    city: yup.string().trim().required(),
+    region: yup.string().trim().required(),
+    postalCode: yup.string().trim().matches(RegExpressions.POSTAL_CODE, InvalidMessages.POSTAL_CODE).required(),
+    asShipping: yup.boolean().required(),
+  })
+  .required();
+
+export type CheckoutFormData = yup.InferType<typeof checkoutFormSchema>;
 
 export const CheckoutForm = () => {
   //// using react-hook-form, without yup
+  // const { register, setValue, handleSubmit, formState } = useForm<CheckoutFormData>({
+  //   mode: 'onBlur',
+  // });
+  //// using react-hook-form, with yup
   const { register, setValue, handleSubmit, formState } = useForm<CheckoutFormData>({
     mode: 'onBlur',
+    resolver: yupResolver(checkoutFormSchema),
   });
 
   const onSubmit = handleSubmit((data) => console.log(data));
@@ -79,7 +121,10 @@ export const CheckoutForm = () => {
                   id="email-address"
                   autoComplete="email"
                   className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
-                  {...register('emailAddress', { required: 'This field is required' })}
+                  {...register(
+                    'emailAddress',
+                    // { required: 'This field is required' }
+                  )}
                 />
                 <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
                   {formState.errors.emailAddress?.message}
@@ -105,6 +150,9 @@ export const CheckoutForm = () => {
                   autoComplete="cc-name"
                   className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                 />
+                <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
+                  {formState.errors.nameOnCard?.message}
+                </span>
               </div>
             </div>
 
@@ -120,6 +168,9 @@ export const CheckoutForm = () => {
                   autoComplete="cc-number"
                   className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                 />
+                <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
+                  {formState.errors.cardNumber?.message}
+                </span>
               </div>
             </div>
 
@@ -132,11 +183,14 @@ export const CheckoutForm = () => {
                   <input
                     type="text"
                     id="expiration-date"
-                    {...register('expirationDate', {
-                      required: true,
-                      // pattern: /^\d\d\/\d\d$/
-                      validate: validateCreditCardDate,
-                    })}
+                    {...register(
+                      'expirationDate',
+                      // {
+                      //   required: true,
+                      //   // pattern: /^\d\d\/\d\d$/
+                      //   validate: validateCreditCardDate,
+                      // }
+                    )}
                     autoComplete="cc-exp"
                     className="block border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                   />
@@ -158,6 +212,9 @@ export const CheckoutForm = () => {
                     autoComplete="csc"
                     className="block border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                   />
+                  <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
+                    {formState.errors.cvc?.message}
+                  </span>
                 </div>
               </div>
             </div>
@@ -179,6 +236,9 @@ export const CheckoutForm = () => {
                   {...register('company')}
                   className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                 />
+                <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
+                  {formState.errors.company?.message}
+                </span>
               </div>
             </div>
 
@@ -194,6 +254,9 @@ export const CheckoutForm = () => {
                   autoComplete="street-address"
                   className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                 />
+                <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
+                  {formState.errors.address?.message}
+                </span>
               </div>
             </div>
 
@@ -208,6 +271,9 @@ export const CheckoutForm = () => {
                   {...register('apartament')}
                   className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                 />
+                <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
+                  {formState.errors.apartament?.message}
+                </span>
               </div>
             </div>
 
@@ -223,6 +289,9 @@ export const CheckoutForm = () => {
                   autoComplete="address-level2"
                   className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                 />
+                <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
+                  {formState.errors.city?.message}
+                </span>
               </div>
             </div>
 
@@ -238,6 +307,9 @@ export const CheckoutForm = () => {
                     {...register('region')}
                     className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                   />
+                  <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
+                    {formState.errors.region?.message}
+                  </span>
                 </div>
               </div>
 
@@ -252,6 +324,9 @@ export const CheckoutForm = () => {
                     {...register('postalCode')}
                     className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
                   />
+                  <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
+                    {formState.errors.postalCode?.message}
+                  </span>
                 </div>
               </div>
             </div>
