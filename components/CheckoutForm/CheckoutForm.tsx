@@ -16,6 +16,8 @@ const products = [
     size: 'M',
     imageSrc: 'https://media.graphassets.com/Y5CO7QQURzeLWx8QyxZT',
     imageAlt: 'black t-shirt',
+    source:
+      'Photo by <a href="https://unsplash.com/@kiikiiosaka?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Alex Haigh</a> on <a href="https://unsplash.com/s/photos/t-shirt?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>',
   },
   {
     id: 2,
@@ -26,6 +28,8 @@ const products = [
     size: 'S',
     imageSrc: 'https://media.graphassets.com/07prUwNwSWeKndVLfECQ',
     imageAlt: 'ecru t-shirt with cat',
+    source:
+      'Photo by <a href="https://unsplash.com/@ryanhoffman007?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Ryan Hoffman</a> on <a href="https://unsplash.com/s/photos/t-shirt?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>',
   },
 ];
 
