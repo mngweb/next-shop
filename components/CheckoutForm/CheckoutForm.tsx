@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { RegExpressions, InvalidMessages } from '../../utils/validations';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { FormInput } from './FormInput';
 
 const products = [
   {
@@ -111,7 +112,14 @@ export const CheckoutForm = () => {
               Contact information
             </h2>
 
-            <div>
+            <FormInput
+              type="email"
+              name="emailAddress"
+              labelText="Email address"
+              useForm={{ register, formState }}
+              autoComplete="email"
+            />
+            {/* <div>
               <label htmlFor="email-address" className="block text-sm font-medium text-gray-600 my-1">
                 Email address
               </label>
@@ -130,7 +138,7 @@ export const CheckoutForm = () => {
                   {formState.errors.emailAddress?.message}
                 </span>
               </div>
-            </div>
+            </div> */}
           </section>
 
           <section aria-labelledby="payment-heading">
@@ -138,45 +146,32 @@ export const CheckoutForm = () => {
               Payment details
             </h2>
 
-            <div>
-              <label htmlFor="name-on-card" className="block text-sm font-medium text-gray-600 my-1">
-                Name on card
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  id="name-on-card"
-                  {...register('nameOnCard')}
-                  autoComplete="cc-name"
-                  className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
-                />
-                <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
-                  {formState.errors.nameOnCard?.message}
-                </span>
-              </div>
-            </div>
+            <FormInput
+              type="text"
+              name="nameOnCard"
+              labelText="Name on card"
+              useForm={{ register, formState }}
+              autoComplete="cc-name"
+            />
 
-            <div>
-              <label htmlFor="card-number" className="block text-sm font-medium text-gray-600 my-1">
-                Card number
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  id="card-number"
-                  {...register('cardNumber')}
-                  autoComplete="cc-number"
-                  className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
-                />
-                <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
-                  {formState.errors.cardNumber?.message}
-                </span>
-              </div>
-            </div>
+            <FormInput
+              type="text"
+              name="cardNumber"
+              labelText="Card number"
+              useForm={{ register, formState }}
+              autoComplete="cc-number"
+            />
 
             <div className="sm:flex sm:justify-between sm:space-x-4">
               <div className="w-full sm:w-1/2">
-                <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-600 my-1">
+                <FormInput
+                  type="text"
+                  name="expirationDate"
+                  labelText="Expiration date (MM/YY)"
+                  useForm={{ register, formState }}
+                  autoComplete="cc-exp"
+                />
+                {/* <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-600 my-1">
                   Expiration date (MM/YY)
                 </label>
                 <div className="mt-1">
@@ -197,25 +192,17 @@ export const CheckoutForm = () => {
                   <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
                     {formState.errors.expirationDate?.message}
                   </span>
-                </div>
+                </div> */}
               </div>
 
               <div className="w-full sm:w-1/2">
-                <label htmlFor="cvc" className="block text-sm font-medium text-gray-600 my-1">
-                  CVC
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    id="cvc"
-                    {...register('cvc')}
-                    autoComplete="csc"
-                    className="block border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
-                  />
-                  <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
-                    {formState.errors.cvc?.message}
-                  </span>
-                </div>
+                <FormInput
+                  type="text"
+                  name="cvc"
+                  labelText="CVC"
+                  useForm={{ register, formState }}
+                  autoComplete="csc"
+                />
               </div>
             </div>
           </section>
@@ -225,109 +212,26 @@ export const CheckoutForm = () => {
               Shipping address
             </h2>
 
-            <div>
-              <label htmlFor="company" className="block text-sm font-medium text-gray-600 my-1">
-                Company
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  id="company"
-                  {...register('company')}
-                  className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
-                />
-                <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
-                  {formState.errors.company?.message}
-                </span>
-              </div>
-            </div>
+            <FormInput type="text" name="company" labelText="Company" useForm={{ register, formState }} />
 
-            <div>
-              <label htmlFor="address" className="block text-sm font-medium text-gray-600 my-1">
-                Address
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  id="address"
-                  {...register('address')}
-                  autoComplete="street-address"
-                  className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
-                />
-                <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
-                  {formState.errors.address?.message}
-                </span>
-              </div>
-            </div>
+            <FormInput type="text" name="address" labelText="Address" useForm={{ register, formState }} />
 
-            <div>
-              <label htmlFor="apartament" className="block text-sm font-medium text-gray-600 my-1">
-                Apartament, suite, etc.
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  id="apartament"
-                  {...register('apartament')}
-                  className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
-                />
-                <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
-                  {formState.errors.apartament?.message}
-                </span>
-              </div>
-            </div>
+            <FormInput
+              type="text"
+              name="apartament"
+              labelText="Apartament, suite, etc."
+              useForm={{ register, formState }}
+            />
 
-            <div>
-              <label htmlFor="city" className="block text-sm font-medium text-gray-600 my-1s">
-                City
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  id="city"
-                  {...register('city')}
-                  autoComplete="address-level2"
-                  className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
-                />
-                <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
-                  {formState.errors.city?.message}
-                </span>
-              </div>
-            </div>
+            <FormInput type="text" name="city" labelText="City" useForm={{ register, formState }} />
 
             <div className="sm:flex sm:justify-between sm:space-x-4">
               <div className="w-full sm:w-1/2">
-                <label htmlFor="region" className="block text-sm font-medium text-gray-600 my-1">
-                  State / Province
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    id="region"
-                    {...register('region')}
-                    className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
-                  />
-                  <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
-                    {formState.errors.region?.message}
-                  </span>
-                </div>
+                <FormInput type="text" name="region" labelText="State / Province" useForm={{ register, formState }} />
               </div>
 
               <div className="w-full sm:w-1/2">
-                <label htmlFor="postal-code" className="block text-sm font-medium text-gray-600 my-1">
-                  Postal code
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    id="postal-code"
-                    {...register('postalCode')}
-                    className="block w-full border-gray-500 focus:ring-green-500 focus:border-green-500 text-sm"
-                  />
-                  <span role="alert" className="inline-block w-full text-sm text-red-500 min-h-[1.25]">
-                    {formState.errors.postalCode?.message}
-                  </span>
-                </div>
+                <FormInput type="text" name="postalCode" labelText="Postal code" useForm={{ register, formState }} />
               </div>
             </div>
           </section>
@@ -337,12 +241,19 @@ export const CheckoutForm = () => {
               Billing information
             </h2>
 
-            <div className="mt-5 flex items-center">
+            <FormInput
+              type="checkbox"
+              name="asShipping"
+              labelText="Same as shipping information"
+              useForm={{ register, formState }}
+              defaultChecked={true}
+            />
+            {/* <div className="mt-5 flex items-center">
               <input id="as-shipping" {...register('asShipping')} type="checkbox" defaultChecked />
               <label htmlFor="as-shipping" className="block text-sm font-medium text-gray-600 my-1">
                 Same as shipping information
               </label>
-            </div>
+            </div> */}
           </section>
 
           <div className="flex justify-center my-5">

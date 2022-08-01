@@ -22,7 +22,7 @@ export const InvalidMessages_PL = {
   REQUIRED: 'To pole jest wymagane',
 };
 
-export const InvalidMessages = InvalidMessages_PL;
+export const InvalidMessages = InvalidMessages_EN;
 
 // export const validateCreditCardDate = (value: string) => {
 //   if (value.length !== 5) {
